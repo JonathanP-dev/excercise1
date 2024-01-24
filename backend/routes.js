@@ -23,6 +23,7 @@ router.get( "/notes", async ( req, res ) => {
 router.post( "/notes", async ( req, res ) => {
   const collection = getCollection();
   const note = req.body;
+  console.log( note )
 
   const newNote = await collection.insertOne( note )
   console.log( newNote )

@@ -3,5 +3,89 @@
   padding: 0;
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
 
+/* HEADER */
+
+.header {
+  text-align: center;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+}
+
+/* MAIN */
+
+.main-container {
+  padding: .5rem;
+  width: 100%;
+
+}
+
+.main-note-creation {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  max-width: 800px;
+}
+
+.title-label {
+  grid-area: title;
+}
+
+.title-input {
+  grid-area: title2;
+}
+
+.tag-label {
+  grid-area: tag;
+}
+
+.tag-input {
+  grid-area: tag2;
+}
+
+.tag-button {
+  grid-area: tag3;
+}
+
+.textarea-note {
+  grid-area: textarea;
+}
+
+.create-note-btn {
+  grid-area: add;
+}
+
+.note-form {
+  display: grid;
+  grid-template-areas:
+    "title title2 title2 title2 . ."
+    "tag tag2 tag2 tag2 tag3 tag3"
+    "textarea textarea textarea textarea textarea textarea"
+    "add add . . . .";
+  gap: 1.5rem;
+}
+
+.note-form-item {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (min-width: 768px) {
+
+  /* HEADER */
+  .header {
+    font-size: 1.5rem;
+  }
+
+  /* MAIN */
+  .main-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .main-note-creation {
+    width: 40%;
+  }
 }
