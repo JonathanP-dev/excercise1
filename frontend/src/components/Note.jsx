@@ -3,13 +3,15 @@ import { NotesContext } from '../context/NotesContext'
 
 
 export function Note ({note}) {
-  const [archived, setArchived] = useState(false)
+  const [archivedNote, setArchivedNote] = useState(false)
   const [loading, setLoading] = useState(true)
-  const {deleteNotes} = useContext(NotesContext)
+  const {deleteNotes, updateNote} = useContext(NotesContext)
+  let {_id, title, tags, content, archived} = note
   
   useEffect(()=>{
     if(note){
       setLoading(false)
+      setArchivedNote(archived)
     }
   }, [note])
 
@@ -17,8 +19,9 @@ export function Note ({note}) {
     deleteNotes({note})
   }
 
-  const handleArchived = () => {
-    setArchived(!archived)
+  const handleArchived = async () => {
+    setArchivedNote(!archivedNote)
+    await updateNote({_id, title, tags, content, archived: !archivedNote })
   }
   return (
       loading || !note ? <span>Adding note..</span>

@@ -2,13 +2,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { NotesContext } from './NotesContext';
 
-export const useNotes = () => {
-  const context = useContext(NotesContext)
-  if (context === undefined){
-    throw new Error('UseNotes must be used within a NotesContextProvider')
-  }
-  return context
-}
+// export const useNotes = () => {
+//   const context = useContext(NotesContext)
+//   if (context === undefined){
+//     throw new Error('UseNotes must be used within a NotesContextProvider')
+//   }
+//   return context
+// }
 
 export const NotesProvider = ({children}) => {
   const [notes, setNotes] = useState([])
@@ -24,9 +24,28 @@ export const NotesProvider = ({children}) => {
       })
       if(res.ok) {
         const newNote = await res.json();
-        setNotes((prevNotes) => [...prevNotes, newNote]);
-        // loadNotes() 
-        return [...notes, newNote];
+        setNotes(prevNotes => [...prevNotes, newNote]);
+        await loadNotes() 
+        // return [...notes, newNote];
+      } else {
+        console.log('Error al crear la nota');
+        console.log(res)
+      }
+    } catch (error) {
+      console.log(error) 
+    }
+  }
+  const updateNote = async ({_id, title, tags, content, archived}) => {
+
+    console.log('Antes de la actualización del estado:', notes);
+    try {
+      const res = await fetch(`http://localhost:5000/api/notes/${_id}`, {
+        method: 'PUT',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({title, tags, content, archived})
+      })
+      if(res.ok) {
+        await loadNotes()
       } else {
         console.log('Error al crear la nota');
         console.log(res)
@@ -36,10 +55,15 @@ export const NotesProvider = ({children}) => {
     }
   }
   const loadNotes = async () => {
+
     try {
       const notesFromDB = await getNotes();
       if (Array.isArray(notesFromDB)) {
         setNotes(notesFromDB);
+      } else if (typeof notesFromDB === 'object' && notesFromDB !== null) {
+        // Si notesFromDB es un objeto, conviértelo en un array antes de actualizar el estado
+        const notesArray = Object.values(notesFromDB);
+        setNotes(notesArray);
       } else {
         console.error('Las notas no son un array:', notesFromDB);
       }
@@ -85,7 +109,7 @@ export const NotesProvider = ({children}) => {
   }
 
   return (
-    <NotesContext.Provider value={{notes, deleteNotes, createNote}} >
+    <NotesContext.Provider value={{notes, deleteNotes, createNote, updateNote}} >
       {children}
     </NotesContext.Provider>
   ) 

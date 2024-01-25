@@ -3,12 +3,8 @@ import { Note } from './Note'
 import { NotesContext } from '../context/NotesContext'
 
 export function ListedNotes () {
-    const [archived, setArchived] = useState(false)
+    const [archivedText, setArchivedText] = useState(false)
     const {notes} = useContext(NotesContext)
-
-    const handleShowArchived = () => {
-      setArchived(!archived)
-    }
 
     useEffect(()=>{
       console.log(`Notas actualizadas en listed notes: ${{notes}}`)
@@ -20,14 +16,20 @@ export function ListedNotes () {
            
           !notes ? <span>Loading...</span>
             : <>
-            <>
-              <h2 className='note-list-title'>List of Unarchived Notes</h2>
-              <button onClick={handleShowArchived}>{!archived ? 'Show Archived Notes' : 'Show Unarchived Notes'}</button>
-            </>
-            {
-              notes.map(note => <Note key={note._id} note={note} />)
-            }
-            </> 
+                <>
+                  <h2 className='note-list-title'>List of Unarchived Notes</h2>
+                  <button onClick={() => setArchivedText(!archivedText)}>{!archivedText ? 'Show Archived Notes' : 'Show Unarchived Notes'}</button>
+                </>
+                {notes.map( note => (
+                  archivedText && note.archived) || (!archivedText && !note.archived) 
+                  ? 
+                  (
+                    <Note key={note._id} note={note} />
+                  ) 
+                  : 
+                  null
+                )}
+              </> 
         }
       </section>
     )

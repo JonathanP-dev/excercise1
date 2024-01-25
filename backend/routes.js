@@ -40,7 +40,7 @@ router.put( "/notes/:id", async ( req, res ) => {
   const data = req.body;
 
   const oldNote = await collection.findOne( { _id: _id } );
-  const newNote = await collection.findOneAndReplace( { _id: _id }, { ...data, tags: [...oldNote.tags, ...data.tags] } );
+  const newNote = await collection.findOneAndReplace( { _id: _id }, { ...data } );
   console.log( newNote )
 
   res.status( 200 ).json( { msg: "PUT REQUEST TO /api/notes/:id" } );
