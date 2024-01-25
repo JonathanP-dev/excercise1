@@ -14,7 +14,6 @@ const getCollection = () => {
 router.get( "/notes", async ( req, res ) => {
   const collection = getCollection();
   const notes = await collection.find( {} ).toArray();
-  console.log( notes )
 
   res.status( 200 ).json( notes );
 } );
@@ -23,7 +22,11 @@ router.get( "/notes", async ( req, res ) => {
 router.post( "/notes", async ( req, res ) => {
   const collection = getCollection();
   const note = req.body;
-  console.log( note )
+
+  if ( !note.title || !note.content ) {
+    res.status( 400 ).json( { msg: 'error! note not found' } )
+    return
+  }
 
   const newNote = await collection.insertOne( note )
   console.log( newNote )

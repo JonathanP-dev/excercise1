@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { NotesContext } from '../context/NotesContext';
 
 
 export function CreateNote () {
@@ -7,14 +8,13 @@ export function CreateNote () {
   const [tagList, setTagList] = useState([]);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  // const [note, setNote] = useState({});
-  let note = {}
 
-  const handleSubmit = (e) => {
+  const {createNote} = useContext(NotesContext)
+  
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(tag)
     // setNote
-    note =
+    const newNote =
       {
         title,
         tag: tagList.length !== 0 ? [...tagList, tag] : [tag],
@@ -22,18 +22,12 @@ export function CreateNote () {
         archived: false
       }
     
-    console.log(note)
-
+    if(!newNote.title || !newNote.content) {
+      alert(`Empty data. Please check`)
+      return
+    }
     // POST note
-    fetch('http://localhost:5000/api/notes', {
-      method: 'POST',
-      headers: {'Content-type': 'application/json'},
-      body: JSON.stringify(note)
-    })
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
-
-    alert('Nota creada')
+    await createNote(newNote)
     // clear inputs and states.
     const titleInput = document.querySelector('.title-input')
     const tagInput = document.querySelector('.tag-input')

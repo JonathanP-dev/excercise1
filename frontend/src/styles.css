@@ -82,6 +82,12 @@
   gap: .5rem;
 }
 
+.note-list-title {
+  text-align: center;
+  text-transform: uppercase;
+
+}
+
 .note-container {
   background-color: #ccc;
   opacity: .7;

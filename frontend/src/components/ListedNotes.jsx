@@ -1,24 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Note } from './Note'
+import { NotesContext } from '../context/NotesContext'
 
 export function ListedNotes () {
-    const [notes, setNotes] = useState([])
-    
+    const [archived, setArchived] = useState(false)
+    const {notes} = useContext(NotesContext)
+
+    const handleShowArchived = () => {
+      setArchived(!archived)
+    }
+
     useEffect(()=>{
-      async function getNotes() {
-        const res = await fetch('http://localhost:5000/api/notes')
-        const data  = await res.json()
-        console.log(data)
-        setNotes(data.filter(note => note.archived == false))
-      }
-      getNotes()
-    },[])
+      console.log(`Notas actualizadas en listed notes: ${{notes}}`)
+    }, [notes])
+    
     return(
       <section className='notes-list-container'>
         {
-          !notes 
-            ? <span>Loading...</span>
-            : notes.map(note => <Note key={note._id} note={note} />)
+           
+          !notes ? <span>Loading...</span>
+            : <>
+            <>
+              <h2 className='note-list-title'>List of Unarchived Notes</h2>
+              <button onClick={handleShowArchived}>{!archived ? 'Show Archived Notes' : 'Show Unarchived Notes'}</button>
+            </>
+            {
+              notes.map(note => <Note key={note._id} note={note} />)
+            }
+            </> 
         }
       </section>
     )
