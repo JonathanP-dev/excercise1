@@ -19,7 +19,9 @@
 .main-container {
   padding: .5rem;
   width: 100%;
-
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .main-note-creation {
@@ -72,6 +74,68 @@
   justify-content: space-around;
 }
 
+/* LIST OF NOTES */
+
+.notes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.note-container {
+  background-color: #ccc;
+  opacity: .7;
+  border-radius: 15px;
+  padding: .5rem;
+}
+
+.note-container:hover {
+  opacity: 1;
+  border: 1px solid rgb(255, 183, 29);
+}
+
+.note-title-container {
+  margin-bottom: 1rem;
+}
+
+.note-title {
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.note-content {
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+
+.note-btn-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.note-btn {
+  background: none;
+  border: none;
+  padding: .2rem .5rem;
+  border-radius: 10px;
+  background-color: #2f3dff;
+  color: #fff;
+  opacity: .7;
+}
+
+.note-btn:hover {
+  opacity: 1;
+}
+
+.btn-delete {
+  background-color: #ff2f2f;
+  color: #000;
+}
+
+.btn-delete:hover {
+  color: #fff;
+}
+
 @media (min-width: 768px) {
 
   /* HEADER */
@@ -81,11 +145,15 @@
 
   /* MAIN */
   .main-container {
-    display: flex;
+    flex-direction: row;
     justify-content: center;
   }
 
   .main-note-creation {
-    width: 40%;
+    width: 50%;
+  }
+
+  .notes-list-container {
+    width: 50%;
   }
 }
